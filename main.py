@@ -8,8 +8,9 @@ from GameEngine import GameEngine
 
 def main():
     game = GameEngine()
-
     game.initializeGame()
-    print(f"Hola amigos")
+    game.intro()
+    print(game.remainingVeggies())
+    game.printField()
 
 main()
