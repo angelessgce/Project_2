@@ -99,9 +99,9 @@ class GameEngine:
             self.__field[row][col] = rabbit_i.getInhabitSymbol()
 
     def initializeGame(self):
-        initVeggies()
-        initCaptain()
-        initRabbits()
+        self.initVeggies()
+        self.initCaptain()
+        self.initRabbits()
 
 
 
