@@ -96,8 +96,10 @@ class GameEngine:
             while self.__field[row][col] != None:  # While that position is not empty
                 col = random.randrange(width)  # We generate another random position
                 row = random.randrange(height)
-
+                
+            
             rabbit_i = Rabbit(col, row)
+            self.__rabbits.append(rabbit_i)
             self.__field[row][col] = rabbit_i.getInhabitSymbol()
 
     def initializeGame(self):
