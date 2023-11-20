@@ -8,7 +8,8 @@ import os  # To check if the file exists
 import random
 
 from Veggie import Veggie
-
+from Captain import Captain
+from Rabbit import Rabbit
 
 class GameEngine:
     NUMBEROFVEGGIES = 30
@@ -46,6 +47,8 @@ class GameEngine:
                 veggies = Veggie(data[0], data[1], data[2])
                 self.__vegetables.append(veggies)  # I add it to the updated list of possible vegetables
 
+        myFile.close()
+
         for i in range(height):  # We create an empty 2D list for the field
             row = []
             for j in range(width):
@@ -63,7 +66,43 @@ class GameEngine:
 
             self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol()
 
-        myFile.close()
+    def initCaptain(self):
+        width= len(self.__field[0])
+        height= len(self.__field)
+        col = random.randrange(width)  # We generate a random position
+        row = random.randrange(height)
+
+        while self.__field[row][col] != None:  # While that position is not empty
+            col = random.randrange(width)  # We generate a random position
+            row = random.randrange(height)
+
+        #Now that we found a random place to allocate the captain, we first create an instance of the class "Captain"
+        captainV = Captain(col,row) #check this!                    ***         ***         ***
+
+        #And now we store in the field the position of the captain writing its symbol
+        self.__field[row][col] = captainV.getInhabitSymbol()
+
+
+    def initRabits(self):
+
+        for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For each rabbit
+            width = len(self.__field[0])
+            height = len(self.__field)
+            col = random.randrange(width)  # We generate a random position
+            row = random.randrange(height)
+
+            while self.__field[row][col] != None:  # While that position is not empty
+                col = random.randrange(width)  # We generate another random position
+                row = random.randrange(height)
+
+            rabbit_i = Rabbit(col, row)
+            self.__field[row][col] = rabbit_i.getInhabitSymbol()
+
+    def initializeGame(self):
+        initVeggies()
+        initCaptain()
+        initRabbits()
+
 
 
 
