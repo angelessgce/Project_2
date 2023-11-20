@@ -2,7 +2,8 @@
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
-# Description:
+# Description: This file contains the class Creature, subclass of the class FieldInhabitant, which adds the attributes
+# of x and y positioning to the attributes which its father class had already.
 
 from FieldInhabitant import FieldInhabitant
 
