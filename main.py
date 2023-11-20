@@ -8,9 +8,13 @@ from GameEngine import GameEngine
 
 def main():
     game = GameEngine()
+    game.initVeggies()
+    game.moveRabbits()
+
     game.initializeGame()
     game.intro()
     print(game.remainingVeggies())
     game.printField()
+
 
 main()
