@@ -9,6 +9,6 @@ from GameEngine import GameEngine
 def main():
     game = GameEngine()
     game.initVeggies()
-
+    print(f"Hola amigos")
 
 main()
