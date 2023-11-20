@@ -114,6 +114,7 @@ class GameEngine:
             self.__field[newY][newX] = "R"
 
 
+
     def initRabbits(self):
 
         for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For each rabbit
