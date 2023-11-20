@@ -65,5 +65,34 @@ class GameEngine:
 
         myFile.close()
 
+    def getScore(self):
+        return self.__score
+
+    def moveRabbits(self):
+
+        for rabbit in range(GameEngine.NUMBEROFRABBITS):
+            incrementX = random.randrange(-1, 2, 1)  # this is: -1, 0, 1
+            incrementY = random.randrange(-1, 2, 1)
+
+            X = self.__rabbits[rabbit].getX()
+            Y = self.__rabbits[rabbit].getY()
+
+            newX = X + incrementX
+            newY = Y + incrementY
+
+            if 0 <= newX < len(self.__field) and 0 <= newY < len(self.__field[0]):  # I am within limits
+                if self.__field[newX][newY] == "V" or self.__field[newX][newY] == "R":  # The place is taken by the captain or a rabbit, so I do not move
+                    newX = X
+                    newY = Y
+            else:  # I am not within limits, I do not move
+                newX = X
+                newY = Y
+
+            self.__rabbits[rabbit].setX(newX)
+            self.__rabbits[rabbit].setY(newY)
+
+            self.__field[Y][X] = None
+            self.__field[newY][newX] = "R"
+
 
 
