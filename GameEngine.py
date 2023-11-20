@@ -2,13 +2,14 @@
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
-# Description: this program will contain the function necessary to initialize all the data for the game
+# Description: This program will contain the necessary functions to initialize all the data for the game
 
 import os  # To check if the file exists
 import random
 
 from Veggie import Veggie
-
+from Captain import Captain
+from Rabbit import Rabbit
 
 class GameEngine:
     NUMBEROFVEGGIES = 30
@@ -46,6 +47,9 @@ class GameEngine:
                 veggies = Veggie(data[0], data[1], data[2])
                 self.__vegetables.append(veggies)  # I add it to the updated list of possible vegetables
 
+
+        myFile.close()
+
         for i in range(height):  # We create an empty 2D list for the field
             row = []
             for j in range(width):
@@ -63,7 +67,22 @@ class GameEngine:
 
             self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol()
 
-        myFile.close()
+
+    def initCaptain(self):
+        width= len(self.__field[0])
+        height= len(self.__field)
+        col = random.randrange(width)  # We generate a random position
+        row = random.randrange(height)
+
+        while self.__field[row][col] != None:  # While that position is not empty
+            col = random.randrange(width)  # We generate a random position
+            row = random.randrange(height)
+
+        #Now that we found a random place to allocate the captain, we first create an instance of the class "Captain"
+        captainV = Captain(col,row) #check this!                    ***         ***         ***
+
+        #And now we store in the field the position of the captain writing its symbol
+        self.__field[row][col] = captainV.getInhabitSymbol()
 
     def getScore(self):
         return self.__score
@@ -95,4 +114,59 @@ class GameEngine:
             self.__field[newY][newX] = "R"
 
 
+    def initRabbits(self):
 
+        for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For each rabbit
+            width = len(self.__field[0])
+            height = len(self.__field)
+            col = random.randrange(width)  # We generate a random position
+            row = random.randrange(height)
+
+            while self.__field[row][col] != None:  # While that position is not empty
+                col = random.randrange(width)  # We generate another random position
+                row = random.randrange(height)
+                
+            
+            rabbit_i = Rabbit(col, row)
+            self.__rabbits.append(rabbit_i)
+            self.__field[row][col] = rabbit_i.getInhabitSymbol()
+
+    def initializeGame(self):
+        self.initVeggies()
+        self.initCaptain()
+        self.initRabbits()
+
+
+    def remainingVeggies(self):
+        remaining = 0
+        for j in range(len(self.__field)):
+            for i in range(len(self.__field[0])):
+                if (self.__field[i][j] != None) and (self.__field[i][j] != "V") and (self.__field[i][j] != "R"):
+                    remaining += 1
+        return remaining
+
+    def intro(self):
+        print("Welcome to Captain Veggie!\nYou are Captain Veggie, and a bunch of rabbits are trying to feast with your",
+              "provisions. Recolect as many as you can before they took it all!\n\nThe following list shows all the ",
+              "vegetables, and how much they worth:")
+        for i in range(len(self.__vegetables)):
+            print(f"{self.__vegetables[i].__str__()}")
+        print(f"\nCaptain Veggie is represented with the symbol: V")
+        print(f"The rabbits are represented with the symbol: R")
+
+    def printField(self):
+        print("")
+        for i in range(len(self.__field[0]) + 2):
+            print("#".center(3), end="")
+        print("")
+        for j in range(len(self.__field)):
+            print("#".center(3), end="")
+            for i in range(len(self.__field[0])):
+                if self.__field[i][j] == None:
+                    print(" ".center(3), end="")
+                else:
+                    print(self.__field[i][j].center(3), end="")
+            print("#".center(3))
+        for i in range(len(self.__field[0]) + 2):
+            print("#".center(3), end="")
+        print("\n")

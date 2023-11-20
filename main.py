@@ -1,4 +1,4 @@
-# Author: de las Fuentes Monreal,    Ane
+# Author: de las Fuentes Monreal,   Ane
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
@@ -10,5 +10,11 @@ def main():
     game = GameEngine()
     game.initVeggies()
     game.moveRabbits()
+
+    game.initializeGame()
+    game.intro()
+    print(game.remainingVeggies())
+    game.printField()
+
 
 main()
