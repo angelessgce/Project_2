@@ -2,7 +2,8 @@
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
-# Description: This is the definition of the class Veggie, subclass of FieldInhabitant
+# Description: This is the definition of the class Veggie, subclass of FieldInhabitant. A veggie is an Inhabitant that apart from a symbol
+# has a name and represent a defined number of points.
 
 from FieldInhabitant import FieldInhabitant
 
