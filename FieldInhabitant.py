@@ -2,7 +2,7 @@
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
-# Description:
+# Description: This is the file containing the class FieldInhabitant
 
 class FieldInhabitant ():
     def __init__(self, symbol):
