@@ -2,7 +2,7 @@
 #         Gonzalez Castro,          Maria Angeles
 #         Gonzalez Rodriguez,       Daniel
 # Date: November 20th 2023
-# Description: this program will contain the function necessary to initialize all the data for the game
+# Description: This program will contain the necessary functions to initialize all the data for the game
 
 import os  # To check if the file exists
 import random
@@ -47,6 +47,7 @@ class GameEngine:
                 veggies = Veggie(data[0], data[1], data[2])
                 self.__vegetables.append(veggies)  # I add it to the updated list of possible vegetables
 
+
         myFile.close()
 
         for i in range(height):  # We create an empty 2D list for the field
@@ -65,6 +66,7 @@ class GameEngine:
                 row = random.randrange(height)
 
             self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol()
+
 
     def initCaptain(self):
         width= len(self.__field[0])
@@ -104,5 +106,31 @@ class GameEngine:
         self.initRabbits()
 
 
+    def remainingVeggies(self):
+        remaining = 0
+        for j in range(len(self.__field)):
+            for i in range(len(self.__field[0])):
+                if self.__field[i][j] != (None and "V" and "R"):
+                    remaining += 1
+        return remaining
 
+    def intro(self):
+        print("Welcome to Captain Veggie!\nYou are Captain Veggie, and a bunch of rabbits are trying to feast with your provisions. Recolect as many as you can before they took it all!\nThe following list shows all the vegetables, and how much they worth:")
+        for i in range(len(self.__vegetables)):
+            print(f"{self.__vegetables[i].__str__()}")
+        print(f"Captain Veggie is represented with the symbol: {self.__captain.getInhabitSymbol()}")
+        print(f"The rabbits are represented with the symbol: {self.__rabbits.getInhabitSymbol()}")
 
+    def printField(self):
+        print("")
+        for i in range(len(self.__field[0]) + 2):
+            print("-", end="")
+        print("")
+        for j in range(len(self.__field)):
+            print("|")
+            for i in range(len(self.__field[0])):
+                print(self.__field[i][j])
+            print("|")
+        for i in range(len(self.__field[0]) + 2):
+            print("-", end="")
+        print("\n")
