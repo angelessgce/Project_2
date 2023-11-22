@@ -84,8 +84,38 @@ class GameEngine:
         #And now we store in the field the position of the captain writing its symbol
         self.__field[row][col] = captainV.getInhabitSymbol()
 
+    def getScore(self):
+        return self.__score
 
-    def initRabits(self):
+    def moveRabbits(self):
+
+        for rabbit in range(GameEngine.NUMBEROFRABBITS):
+            incrementX = random.randrange(-1, 2, 1)  # this is: -1, 0, 1
+            incrementY = random.randrange(-1, 2, 1)
+
+            X = self.__rabbits[rabbit].getX()
+            Y = self.__rabbits[rabbit].getY()
+
+            newX = X + incrementX
+            newY = Y + incrementY
+
+            if 0 <= newX < len(self.__field) and 0 <= newY < len(self.__field[0]):  # I am within limits
+                if self.__field[newX][newY] == "V" or self.__field[newX][newY] == "R":  # The place is taken by the captain or a rabbit, so I do not move
+                    newX = X
+                    newY = Y
+            else:  # I am not within limits, I do not move
+                newX = X
+                newY = Y
+
+            self.__rabbits[rabbit].setX(newX)
+            self.__rabbits[rabbit].setY(newY)
+
+            self.__field[Y][X] = None
+            self.__field[newY][newX] = "R"
+
+
+
+    def initRabbits(self):
 
         for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For each rabbit
             width = len(self.__field[0])
@@ -112,27 +142,32 @@ class GameEngine:
         remaining = 0
         for j in range(len(self.__field)):
             for i in range(len(self.__field[0])):
-                if self.__field[i][j] != (None and "V" and "R"):
+                if (self.__field[i][j] != None) and (self.__field[i][j] != "V") and (self.__field[i][j] != "R"):
                     remaining += 1
         return remaining
 
     def intro(self):
-        print("Welcome to Captain Veggie!\nYou are Captain Veggie, and a bunch of rabbits are trying to feast with your provisions. Recolect as many as you can before they took it all!\nThe following list shows all the vegetables, and how much they worth:")
+        print("Welcome to Captain Veggie!\nYou are Captain Veggie, and a bunch of rabbits are trying to feast with your",
+              "provisions. Recolect as many as you can before they took it all!\n\nThe following list shows all the ",
+              "vegetables, and how much they worth:")
         for i in range(len(self.__vegetables)):
             print(f"{self.__vegetables[i].__str__()}")
-        print(f"Captain Veggie is represented with the symbol: {self.__captain.getInhabitSymbol()}")
-        print(f"The rabbits are represented with the symbol: {self.__rabbits.getInhabitSymbol()}")
+        print(f"\nCaptain Veggie is represented with the symbol: V")
+        print(f"The rabbits are represented with the symbol: R")
 
     def printField(self):
         print("")
         for i in range(len(self.__field[0]) + 2):
-            print("-", end="")
+            print("#".center(3), end="")
         print("")
         for j in range(len(self.__field)):
-            print("|")
+            print("#".center(3), end="")
             for i in range(len(self.__field[0])):
-                print(self.__field[i][j])
-            print("|")
+                if self.__field[i][j] == None:
+                    print(" ".center(3), end="")
+                else:
+                    print(self.__field[i][j].center(3), end="")
+            print("#".center(3))
         for i in range(len(self.__field[0]) + 2):
-            print("-", end="")
+            print("#".center(3), end="")
         print("\n")

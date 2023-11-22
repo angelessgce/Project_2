@@ -8,8 +8,13 @@ from GameEngine import GameEngine
 
 def main():
     game = GameEngine()
-
     game.initializeGame()
-    print(f"Hola amigos")
+    game.intro()
+    print(game.remainingVeggies())
+    print("Before moving rabbits:")
+    game.printField()
+    game.moveRabbits()
+    print("After moving rabbits:")
+    game.printField()
 
 main()
