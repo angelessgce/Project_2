@@ -10,16 +10,16 @@ from FieldInhabitant import FieldInhabitant
 class Creature(FieldInhabitant):
     def __init__(self, x, y, symbol):
         FieldInhabitant.__init__(self,symbol)
-        self._x = x
-        self._y = y
+        self._x = x # We decide to use x to represent the row, being 0 the upper row
+        self._y = y # We decide to use y to represent the column, being 0 the left row
 
-    def getX(self):
+    def getX(self): #it will return the row
         return self._x
 
     def setX(self, newX):
         self._x = newX
 
-    def getY(self):
+    def getY(self): #it will return the column
         return self._y
 
     def setY(self, newY):
