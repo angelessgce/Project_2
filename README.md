@@ -8,3 +8,6 @@ This is a Project made by Ane, Daniel and Angeles
 1. Capptain Veggie is duplicated
 2. Captain Veggie does not move up
 3. The game does not notify the user that there is a bunny where he wants to move
+
+![image](https://github.com/angelessgce/Project_2/assets/150636429/6ddf0adc-cd99-40b1-ae4f-b439f03059a3)
+Three bunnies instead of 5 bunnies! what happened?
