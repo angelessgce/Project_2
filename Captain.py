@@ -12,20 +12,43 @@ from Creature import Creature
 
 class Captain(Creature):
     def __init__(self, x, y):
-        Creature.__init__(self, x, y, "V")
-        self.__veggiesCollected = []
+        """
+        This function defines a constructor to initialize class variables of Captain and objects or setup class data
+        structures. It takes the coordinates x and y, and returns nothing
+        :param x: determines the position x
+        :type x: int
+        :param y: determines the position y
+        :type y: int
+        """
+        Creature.__init__(self, x, y, "V")  # We initialize said variables
+        self.__veggiesCollected = []  # We initialize the veggies collected as an empty list
 
     def addVeggie(self, Veggie):
-        self.__veggiesCollected.append(Veggie)
+        """
+        This function that takes in a Veggie object as a parameter, returns
+        nothing, and adds the object to the List of Veggie objects.
+        :param Veggie: object to add to the list
+        :type Veggie: object
+        """
+        self.__veggiesCollected.append(Veggie)  # We add the new veggies by appending the new list to the old list
 
     def getVeggiesCollected(self):
+        """
+        This function is a getter function of the collected veggies. It takes in nothing and returns said Collected
+        Veggies.
+        :return : list containing the veggies collected
+        """
         return self.__veggiesCollected
 
     def setVeggiesCollected(self, newVeggiesCollected):
+        """
+        This function is a setter of the new collected veggies. It takes the new collected veggies and returns nothing.
+        :param newVeggiesCollected: list containing the new veggies collected
+        :type newVeggiesCollected: list
+        """
         # receiving a new list and replacing veggiesCollected
         # clean the initial list
         self.__veggiesCollected.clear()
         # create the new list
         for item in range(len(newVeggiesCollected)):
-            self.__veggiesCollected.append(newVeggiesCollected[item])
-
+            self.__veggiesCollected.append(newVeggiesCollected[item])  # We add the new elements

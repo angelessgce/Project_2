@@ -12,60 +12,75 @@ from Captain import Captain
 from Rabbit import Rabbit
 
 class GameEngine:
+    # We initialize the constant values of number of veggies, number of rabbits, and the highest score file
     NUMBEROFVEGGIES = 30
     NUMBEROFRABBITS = 5
     HIGHSCOREFILE = "highscore.data"
 
     def __init__(self):
-        self.__field = []
-        self.__rabbits = []
-        self.__captain = None
-        self.__vegetables = []
-        self.__score = 0
+        """
+        This function defines a constructor to initialize class variables of GameEngine and objects or setup class
+        data structures. It takes in and returns nothing.
+        """
+        self.__field = []  # We initialize the field as an empty list
+        self.__rabbits = []  # We initialize the rabbits as an empty list
+        self.__captain = None  # We initialize the captain as None
+        self.__vegetables = []  # We initialize the vegetables as an empty list
+        self.__score = 0  # We initialize the score as zero
 
     def initVeggies(self):
+        """
+        This function initializes the veggies. This is, it reads the data from the file, and ads this information
+        correctly to the field. It takes in and returns nothing.
+        """
+        # Variable to get track of the lines
         lineNumber = 0
 
-        # prompt the user for the name of the file
+        # We prompt the user for the name of the file
         filename = input("Please enter the name of the file: ")
 
-        # check if it exists, keep asking if it does not
+        # We check if it exists, keep asking if it does not
         while not os.path.exists(filename):
             filename = input("That file does not exist! Please enter the name of the file: ")
 
-        myFile = open(filename, "r")  # open to access the data
+        myFile = open(filename, "r")  # We open the file to access the data
 
-        for line in myFile:  # I iterate through the data and keep it
+        for line in myFile:  # We iterate through the data and keep it
             lineNumber += 1
             if lineNumber == 1:  # the first line is the size of the grid
                 data = line.strip().split(',')
-                height = int(data[-2])  # clean the data
-                width = int(data[-1])  # clean the data
+                height = int(data[-2])  # We clean the data
+                width = int(data[-1])  # We clean the data
 
             else:
                 data = line.strip().split(',')  # the subsequent lines are added to the list of possible vegetables
-                veggies = Veggie(data[0], data[1], data[2])
-                self.__vegetables.append(veggies)  # I add it to the updated list of possible vegetables
-        myFile.close()
+                veggies = Veggie(data[0], data[1], data[2])  # We create and instance of Veggie class and associate it
+                # with the variable called "veggies"
+                self.__vegetables.append(veggies)  # We add it to the updated list of possible vegetables
+        myFile.close()  # We close the file
 
         for i in range(height):  # We create an empty 2D list for the field
-            row = []
+            row = []  # We create an empty row
             for j in range(width):
-                row.append(None)
-            self.__field.append(row)
+                row.append(None)  # We assign the value none for each space of the field
+            self.__field.append(row)  # We append each row
 
         for vegetable in range(GameEngine.NUMBEROFVEGGIES):  # We iterate through that empty 2D list
             chosenVeggie = random.randrange(len(self.__vegetables))  # We get a random veggie
             col = random.randrange(width)  # We generate a random position
-            row = random.randrange(height)
+            row = random.randrange(height)  # We generate a random position
 
             while self.__field[row][col] != None:  # While that position is not empty
                 col = random.randrange(width)  # We generate a random position
-                row = random.randrange(height)
+                row = random.randrange(height)  # We generate a random position
 
-            self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol() #remember row is x and col is y
+            self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol() # Row is x and col is y
 
     def initCaptain(self):
+        """
+        This function initializes all the values for the Captain
+        :return:
+        """
         width= len(self.__field[0])
         height= len(self.__field)
         col = random.randrange(width)  # We generate a random position
