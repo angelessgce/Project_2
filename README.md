@@ -11,3 +11,7 @@ This is a Project made by Ane, Daniel and Angeles
 
 ![image](https://github.com/angelessgce/Project_2/assets/150636429/6ddf0adc-cd99-40b1-ae4f-b439f03059a3)
 Three bunnies instead of 5 bunnies! what happened?
+
+
+![image](https://github.com/angelessgce/Project_2/assets/150636429/cb12e0d8-2174-42aa-b141-be7a57bf3463)
+The captain does not move where it should
