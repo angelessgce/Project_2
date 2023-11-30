@@ -7,7 +7,7 @@
 from GameEngine import GameEngine
 
 def main():
-    game = GameEngine()     #Instantitate and store a GameEngine object
+    game = GameEngine()     #Instantiate and store a GameEngine object
     game.initializeGame()   # Initialize the game
     game.intro()            # Display the game's introduction
 
@@ -18,20 +18,9 @@ def main():
         game.moveCaptain()
 
     game.gameOver()
-    #HANDLE THE HIGH SCORE FUNCTIONALITY --MISSING
 
-    # print("Before moving rabbits:")
-    # game.printField()
-    # game.moveRabbits()
-    # print("After moving rabbits:")
-    # game.printField()
-    #
-    # game.moveCaptain()
-    # game.printField()
-    # game.moveCaptain()
-    # game.printField()
-    # game.moveCaptain()
-    # game.printField()
+main()
+
 
 
 
