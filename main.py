@@ -6,22 +6,19 @@
 
 from GameEngine import GameEngine
 
+
 def main():
-    game = GameEngine()     #Instantiate and store a GameEngine object
-    game.initializeGame()   # Initialize the game
-    game.intro()            # Display the game's introduction
+    game = GameEngine()  # Instantiate and store a GameEngine object
+    game.initializeGame()  # Initialize the game
+    game.intro()  # Display the game's introduction
 
-    while (game.remainingVeggies()>0):
-        print(f"There are {game.remainingVeggies()} remaining veggies.") #Remaining veggies
-        game.printField() #Print the field
-        game.moveRabbits()
-        game.moveCaptain()
+    while game.remainingVeggies() > 0:
+        print(f"There are {game.remainingVeggies()} remaining veggies.")  # Remaining veggies
+        game.printField()  # Print the field
+        game.moveRabbits()  # Move the rabbits
+        game.moveCaptain()  # Move the captain
 
-    game.gameOver()
+    game.gameOver()  # When exiting the loop, the game ends
+
 
 main()
-
-
-
-
-
