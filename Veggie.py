@@ -20,7 +20,7 @@ class Veggie(FieldInhabitant):
         """
         FieldInhabitant.__init__(self, vegSymbol)  # We associate the symbol
         self.__name = vegName  # We associate the name
-        self.__points = vegPoints  # We associate the points
+        self.__points = int(vegPoints)  # We associate the points
 
     def __str__(self):
         """ This function modifies the output on an object when it is printed. In this case, for example, for each
