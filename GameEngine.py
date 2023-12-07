@@ -34,10 +34,11 @@ class GameEngine:
         This function initializes the veggies. This is, it reads the data from the file, and ads this information
         correctly to the field. It takes in and returns nothing.
         """
-        # Variable to get track of the lines
-        lineNumber = 0
-        height = 0
-        width = 0
+
+        lineNumber = 0  # Variable to get track of the lines
+        # Field size
+        height = 0  # This variable will store the number of rows of the grid
+        width = 0  # This variable will store the number of columns of the grid
 
         # We prompt the user for the name of the file
         filename = input("Please enter the name of the file: ")
@@ -63,30 +64,35 @@ class GameEngine:
                 self.__vegetables.append(veggies)  # We add it to the updated list of possible vegetables
         myFile.close()  # We close the file
 
-        for i in range(height):  # We create an empty 2D list for the field
+        # We create an empty 2D list for the field
+        for i in range(height):  # For each row in the grid
             row = []  # We create an empty row
-            for j in range(width):
+            for j in range(width):  # For each column in that row
                 row.append(None)  # We assign the value none for each space of the field
             self.__field.append(row)  # We append each row
 
-        for vegetable in range(GameEngine.NUMBEROFVEGGIES):  # We iterate through that empty 2D list
-            chosenVeggie = random.randrange(len(self.__vegetables))  # We get a random veggie
-            col = random.randrange(width)  # We generate a random position
-            row = random.randrange(height)  # We generate a random position
+        # We iterate through that empty 2D list to allocate the assigned vegetables
+        for vegetable in range(GameEngine.NUMBEROFVEGGIES):  # For each vegetable to be created
+            chosenVeggie = random.randrange(len(self.__vegetables))  # Get random one from the list of possible veggies
+            col = random.randrange(width)  # We generate a random horizontal position between the limits
+            row = random.randrange(height)  # We generate a random vertical position between the limits
 
+            # if the position chosen is already occupied, we look for another one until we find an empty slot
             while self.__field[row][col] is not None:  # While that position is not empty
-                col = random.randrange(width)  # We generate a random position
-                row = random.randrange(height)  # We generate a random position
+                col = random.randrange(width)  # We generate a random horizontal position
+                row = random.randrange(height)  # We generate a random vertical position
 
-            self.__field[row][col] = self.__vegetables[chosenVeggie].getInhabitSymbol()  # Row is x and col is y
+            self.__field[row][col] = self.__vegetables[
+                chosenVeggie].getInhabitSymbol()  # Writing the symbol in the field
 
     def initCaptain(self):
         """
         This function initializes all the values for the Captain. It randomly allocates the captain in the field, and
         it creates an instance of the class captain with its position. It takes in and returns nothing.
         """
-        width = len(self.__field[0])
-        height = len(self.__field)
+        width = len(self.__field[0])  # Extracting number of columns
+        height = len(self.__field)  # Extracting number of rows
+
         col = random.randrange(width)  # We generate a random position in columns
         row = random.randrange(height)  # We generate a random position in rows
 
@@ -96,7 +102,7 @@ class GameEngine:
 
         # Now that we found a random empty place to allocate the captain, we first create an instance of the class
         # "Captain"
-        captainV = Captain(row, col)
+        captainV = Captain(row, col)  # Row is the creature x member value, and column is the y as we decided.
         self.__captain = captainV
         # And now we store in the field the position of the captain writing its symbol
         self.__field[row][col] = captainV.getInhabitSymbol()
@@ -108,8 +114,9 @@ class GameEngine:
         It takes in and returns nothing.
         """
         for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For each rabbit
-            width = len(self.__field[0])
-            height = len(self.__field)
+            width = len(self.__field[0])  # Number of columns
+            height = len(self.__field)  # Number of rows
+
             # We generate a random position
             col = random.randrange(width)
             row = random.randrange(height)
@@ -120,7 +127,7 @@ class GameEngine:
                 row = random.randrange(height)
 
             # Once we get an available position, we first create an instance of the class "Rabbit"
-            rabbit_i = Rabbit(col, row)
+            rabbit_i = Rabbit(row, col)
             self.__rabbits.append(rabbit_i)  # Add it to the rabbits list
             self.__field[row][col] = rabbit_i.getInhabitSymbol()  # Associate the symbol
 
@@ -134,9 +141,11 @@ class GameEngine:
 
     def remainingVeggies(self):
         remaining = 0
-        for j in range(len(self.__field)):
-            for i in range(len(self.__field[0])):
-                if (self.__field[i][j] is not None) and (self.__field[i][j] != "V") and (self.__field[i][j] != "R"):
+
+        for row in range(len(self.__field)):  # For each row of the field
+            for col in range(len(self.__field[0])):  # For each position in that row (column)r
+                if (self.__field[row][col] is not None) and (self.__field[row][col] != "V") and (
+                        self.__field[row][col] != "R"):
                     remaining += 1
         return remaining
 
@@ -162,25 +171,34 @@ The following list shows all the vegetables, and how much they worth:""")
         print(f"The rabbits are represented with the symbol: R")
 
     def printField(self):
-        """ This function will print the field in a user-friendly way: in a 2D grid format with a border around the
+        """
+        This function will print the field in a user-friendly way: in a 2D grid format with a border around the
         grid. It takes in and returns nothing.
         """
-        print("")
+        print("")  # Printing an empty line to separate
 
-        for i in range(len(self.__field[0]) + 2):
-            print("#".center(3), end="")
-        print("")
-        for j in range(len(self.__field)):
-            print("#".center(3), end="")
-            for i in range(len(self.__field[0])):
-                if self.__field[i][j] is None:
+        # First, we print the upper border
+        for i in range(len(self.__field[0]) + 2):  # For a length of a line of the grid plus the borders...
+            print("#".center(3), end="")  # Print a symbol # in a space of three characters, centered
+
+        print("")  # Print separator
+
+        # Now, we print each line of the grid, leaving blank spaces for the empty slots
+        # Two lateral borders are also printed, adding # at the beginning and end of each line
+        for row in range(len(self.__field)):  # For each row in the grid
+            print("#".center(3), end="")  # We first print the left border
+            for col in range(len(self.__field[0])):  # For each slot (column) in a row
+                if self.__field[row][col] is None:  # if the slot is empty, print a blank space of width 3
                     print(" ".center(3), end="")
                 else:
-                    print(self.__field[i][j].center(3), end="")
-            print("#".center(3))
+                    print(self.__field[row][col].center(3), end="")  # If it is not empty, print the symbol
+            print("#".center(3))  # Print the right border
+
+        # Finally, we print the lower border
         for i in range(len(self.__field[0]) + 2):
             print("#".center(3), end="")
-        print("\n")
+
+        print("\n")  # Printing two separators
 
     def getScore(self):
         """
@@ -192,6 +210,7 @@ The following list shows all the vegetables, and how much they worth:""")
         """
         This function will move the Rabbits across the field. It takes in and returns nothing.
         """
+        # NOTE: the convention used is x for row and y for column
         for rabbit in range(GameEngine.NUMBEROFRABBITS):  # For every rabbit
             incrementX = random.randrange(-1, 2, 1)  # We generate a random increment in X: this is: -1, 0, 1
             incrementY = random.randrange(-1, 2, 1)  # We generate a random increment in Y: this is: -1, 0, 1
@@ -199,10 +218,11 @@ The following list shows all the vegetables, and how much they worth:""")
             X = self.__rabbits[rabbit].getX()  # We get the original value of X
             Y = self.__rabbits[rabbit].getY()  # We get the original value of Y
 
-            newX = X + incrementX  # We find our new X
-            newY = Y + incrementY  # We find our new Y
+            newX = X + incrementX  # We find our new X (row)
+            newY = Y + incrementY  # We find our new Y (column)
 
-            if 0 <= newX < len(self.__field) and 0 <= newY < len(self.__field[0]):  # I am within limits
+            if 0 <= newX < len(self.__field) and 0 <= newY < len(self.__field[0]):  # I am within limits =
+                # If the new row is inside the height of the field and the new column inside the width
                 if self.__field[newX][newY] == "V" or self.__field[newX][newY] == "R":  # The place is taken by the
                     # captain or a rabbit, so I do not move
                     newX = X
@@ -212,33 +232,36 @@ The following list shows all the vegetables, and how much they worth:""")
                 newY = Y
 
             # We update the values of X and Y
-
             self.__rabbits[rabbit].setX(newX)
             self.__rabbits[rabbit].setY(newY)
 
             # We update the values of the previous X and Y
-            self.__field[Y][X] = None
-            self.__field[newY][newX] = "R"
+            self.__field[X][Y] = None
+            self.__field[newX][newY] = "R"
 
-    def moveCptVertical(self, yMovement):
+    def moveCptHorizontal(self, deltaY):
         """
+        This function is in charge of the horizontal movement of the captain, which corresponds to the change of columns
+        in the field.
+        :param deltaY: A number that determines the horizontal movement of the captain, +1 to go right or -1
+        to go left in the grid
+        :type deltaY: int
         """
         # We need the captain current position:
-        x = self.__captain.getX()
-        y = self.__captain.getY()
+        x = self.__captain.getX()  # row
+        y = self.__captain.getY()  # column
 
-        if self.__field[x][y + yMovement] is None:  # if the captain position plus movement goes to an empty slot
-            self.__captain.setY(y + yMovement)
-            self.__field[x][y + yMovement] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
-            #                        ****Check!!
-            self.__field[x][y] = None  # leave the previous slot free
+        if self.__field[x][y + deltaY] is None:  # If the captain position plus movement goes to an empty slot
+            self.__captain.setY(y + deltaY)
+            self.__field[x][y + deltaY] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
+            self.__field[x][y] = None  # Leave the previous slot free
 
-        # if there is a veggie in the next slot:
-        elif (self.__field[x][y + yMovement] is not None) and (self.__field[x][y + yMovement] != "V") and (
-                self.__field[x][y + yMovement] != "R"):
-            self.__captain.setY(y + yMovement)  # update captain position
+        # If there is a veggie in the next slot:
+        elif (self.__field[x][y + deltaY] is not None) and (self.__field[x][y + deltaY] != "V") and (
+                self.__field[x][y + deltaY] != "R"):
+            self.__captain.setY(y + deltaY)  # update captain position
             # We need to know what veggie was found and access to its name and points:
-            vegSymbol = self.__field[x][y + yMovement]
+            vegSymbol = self.__field[x][y + deltaY]
             # We search for the veggie in the list
             for veggie in self.__vegetables:
                 if veggie.getInhabitSymbol() == vegSymbol:
@@ -251,29 +274,36 @@ The following list shows all the vegetables, and how much they worth:""")
             self.__captain.addVeggie(vegObject)  # add veggie to th captain veggies list
             self.__score += vegObject.getPoints()
             self.__field[x][
-                y + yMovement] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
+                y + deltaY] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
             #      ***** check!!
             self.__field[x][y] = None  # leave the previous slot free
 
-        elif self.__field[x][y + yMovement] == "R":  # if there is a rabbit in the next slot
+        elif self.__field[x][y + deltaY] == "R":  # if there is a rabbit in the next slot
             print("Don't step on the bunnies!")
 
-    def moveCptHorizontal(self, xMovement):
+    def moveCptVertical(self, deltaX):
+        """
+        This function is in charge of the vertical movement of the captain, which corresponds to the change of columns
+        in the field.
+        :param deltaX: A number that determines the vertical movement of the captain, +1 to go up or -1
+        to go down in the grid
+        :type deltaX: int
+        """
         # We need the captain current position:
         x = self.__captain.getX()
         y = self.__captain.getY()
 
-        if self.__field[x + xMovement][y] is None:  # if the captain position plus movement goes to an empty slot
-            self.__captain.setX(x + xMovement)
-            self.__field[x + xMovement][y] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
+        if self.__field[x + deltaX][y] is None:  # if the captain position plus movement goes to an empty slot
+            self.__captain.setX(x + deltaX)
+            self.__field[x + deltaX][y] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot
             self.__field[x][y] = None  # leave the previous slot free
 
         # if there is a veggie in the next slot
-        elif (self.__field[x + xMovement][y] is not None) and (self.__field[x + xMovement][y] != "V") and (
-                self.__field[x + xMovement][y] != "R"):
-            self.__captain.setX(x + xMovement)  # update captain position
+        elif (self.__field[x + deltaX][y] is not None) and (self.__field[x + deltaX][y] != "V") and (
+                self.__field[x + deltaX][y] != "R"):
+            self.__captain.setX(x + deltaX)  # update captain position
             # We need to know what veggie was found and access to its name and points:
-            vegSymbol = self.__field[x + xMovement][y]  # First we copy the symbol of the veggie found to search for it
+            vegSymbol = self.__field[x + deltaX][y]  # First we copy the symbol of the veggie found to search for it
             # Then we search for the veggie in the list
             for veggie in self.__vegetables:
                 if veggie.getInhabitSymbol() == vegSymbol:
@@ -285,44 +315,49 @@ The following list shows all the vegetables, and how much they worth:""")
                 f"Yummy! A delicious {vegObject.getName()}.")  # output the name of the veggie found
             self.__captain.addVeggie(vegObject)  # add veggie to the captain veggies list
             self.__score += vegObject.getPoints()
-            self.__field[x + xMovement][
+            self.__field[x + deltaX][
                 y] = self.__captain.getInhabitSymbol()  # The captain occupies the new slot               *****CHECK
             self.__field[x][y] = None  # leave the previous slot free
 
-        elif self.__field[x + xMovement][y] == "R":  # if there is a rabbit in the next slot
-
+        elif self.__field[x + deltaX][y] == "R":  # if there is a rabbit in the next slot
             print("Don't step on the bunnies!")
 
     def moveCaptain(self):
-        # To simplify the code...
-        x = self.__captain.getX()
-        y = self.__captain.getY()
+        """
+        This function is in charge of the movement of the captain. the captain can move upwards, downwards, right or
+        left. This function prompts the user for a choice of movement and calls the corresponding function.
+        """
+        x = self.__captain.getX()  # row
+        print(f"The captain is in x= {x + 1}")
+        y = self.__captain.getY()  # column
+        print(f"The captain is in y={y + 1}")
 
+        # Prompt the user for the captain movement desired
         move = input("Would you like to move up(W), down(S), left(A), or right(D):").upper()
 
-        while move not in {"W", "S", "A", "D"}:
+        while move not in {"W", "S", "A", "D"}:  # Making sure the user selects a feasible movement for the captain
             print("That movement does not exist. Please select another choice.")
             move = input("Would you like to move up(W), down(S), left(A), or right(D):").upper()
 
-        if move == "W":
+        if move == "W":  # If the user wants the captain to move upwards:
             # Check if the captain can move upwards
-            if y > 0:
+            if x > 0:  # if the row is not the upper one (row 0)
                 self.moveCptVertical(-1)
-            else:
+            else:  # If the row is the upper one, the captain cannot move upwards
                 print("The captain cannot move upwards!")
 
-        elif move == "S":
+        elif move == "S": # If the user wants the captain to move downwards:
             # Check if the captain can move downwards
-            if y < len(self.__field) - 1:
+            if x < len(self.__field) - 1:
                 # this len returns n. rows in the field (height). If the height is 10 rows (0-9), the captain can move
                 # downwards if he is not in row 9 = his row is less than (height-1)
                 self.moveCptVertical(1)
             else:
                 print("The captain cannot move downwards!")
 
-        elif move == "A":
+        elif move == "A": # If the user wants the captain to move left:
             # Check if the captain can move left
-            if x > 0:  # The captain will not move outside the left boundary if he is not in column 0
+            if y > 0:  # The captain will not move outside the left boundary if he is not in column 0
                 # which is the same as while he is in a column higher than 0
                 self.moveCptHorizontal(-1)
             else:
@@ -330,7 +365,7 @@ The following list shows all the vegetables, and how much they worth:""")
 
         elif move == "D":
             # Check if the captain can move right
-            if x < len(self.__field[
+            if y < len(self.__field[
                            0]) - 1:  # The captain will not move outside the right boundary if he is not in the last
                 # column
                 # which is the same as while he is in a column less than the last one
@@ -347,5 +382,21 @@ The following list shows all the vegetables, and how much they worth:""")
         print("You managed to harvest the following vegetables:")
         # We iterate through the collected veggies
         for i in self.__captain.getVeggiesCollected():
-            print(i.getName())  # print every name
-        print(f"Your score was: {self.__score}")  # print the score
+            print(i.getName())  # Print every name
+        print(f"Your score was: {self.__score}")  # Print the score
+
+
+    def highScore(self):
+        """
+        This function prompts the user for their initials
+
+        """
+        lPlayers = []
+        if os.path.exists(HIGHSCOREFILE):
+
+            myFile = open(HIGHSCOREFILE, "rb")  # We open the file to access the data
+
+
+            myFile.close()  # We close the file
+
+
