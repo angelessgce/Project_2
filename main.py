@@ -19,6 +19,7 @@ def main():
         game.moveCaptain()  # Move the captain
 
     game.gameOver()  # When exiting the loop, the game ends
+    game.highScore()  # Saving your score in the list of previous scores, and showing the positions list on screen
 
 
 main()
