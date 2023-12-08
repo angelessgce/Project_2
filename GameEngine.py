@@ -6,6 +6,7 @@
 
 import os  # To check if the file exists
 import random  # To generate random values
+import pickle  # To unpickle a file
 
 from Veggie import Veggie
 from Captain import Captain
@@ -159,7 +160,7 @@ class GameEngine:
         print("""Welcome to Captain Veggie!
 You are Captain Veggie, and a bunch of rabbits are trying to feast with your
 provisions. Recollect as many as you can before they took it all!
-        
+
 The following list shows all the vegetables, and how much they worth:""")
 
         # We output the vegetables' information
@@ -328,9 +329,7 @@ The following list shows all the vegetables, and how much they worth:""")
         left. This function prompts the user for a choice of movement and calls the corresponding function.
         """
         x = self.__captain.getX()  # row
-        print(f"The captain is in x= {x + 1}")
         y = self.__captain.getY()  # column
-        print(f"The captain is in y={y + 1}")
 
         # Prompt the user for the captain movement desired
         move = input("Would you like to move up(W), down(S), left(A), or right(D):").upper()
@@ -346,7 +345,7 @@ The following list shows all the vegetables, and how much they worth:""")
             else:  # If the row is the upper one, the captain cannot move upwards
                 print("The captain cannot move upwards!")
 
-        elif move == "S": # If the user wants the captain to move downwards:
+        elif move == "S":  # If the user wants the captain to move downwards:
             # Check if the captain can move downwards
             if x < len(self.__field) - 1:
                 # this len returns n. rows in the field (height). If the height is 10 rows (0-9), the captain can move
@@ -355,7 +354,7 @@ The following list shows all the vegetables, and how much they worth:""")
             else:
                 print("The captain cannot move downwards!")
 
-        elif move == "A": # If the user wants the captain to move left:
+        elif move == "A":  # If the user wants the captain to move left:
             # Check if the captain can move left
             if y > 0:  # The captain will not move outside the left boundary if he is not in column 0
                 # which is the same as while he is in a column higher than 0
@@ -385,18 +384,42 @@ The following list shows all the vegetables, and how much they worth:""")
             print(i.getName())  # Print every name
         print(f"Your score was: {self.__score}")  # Print the score
 
-
     def highScore(self):
         """
-        This function prompts the user for their initials
-
+        This function prompts the user for their initials and reads the file that contains the previous scores. It saves
+        the users score and its initials in the correct position of the list (descending order of points), and shows the
+        complete list on screen.
         """
-        lPlayers = []
-        if os.path.exists(HIGHSCOREFILE):
-
-            myFile = open(HIGHSCOREFILE, "rb")  # We open the file to access the data
-
-
+        lPlayers = []  # Creating the list that will contain the scores
+        if os.path.exists(self.HIGHSCOREFILE):  # If the file exists
+            myFile = open(self.HIGHSCOREFILE, "rb")  # We open the file to access the data
+            lPlayers = pickle.load(myFile)  # We unpickle the file and store the scores list in the variable lPlayers
             myFile.close()  # We close the file
-
+            initials = input("Write your initials: ")  # Input the player initials
+            initials = initials[0:3]  # Taking only the first three initials of the player
+            if len(lPlayers[0]) == 0:  # If the list is empty: append the first score
+                firstScore = (initials, self.__score)
+                lPlayers.append(firstScore)
+            else: # the list has scores already: search on the list the position of the new score
+                for i in range(len(lPlayers)):
+                    if self.__score > lPlayers[i][1]:  # the new score is the best or better than some of the saved ones
+                        newScore = (initials, self.__score)
+                        lPlayers.insert(i, newScore)  # insert the new score
+                        break
+                    if i == (len(lPlayers)-1) and self.__score <= lPlayers[i][1]:  # the new score is the worst for now
+                        newScore = (initials, self.__score)
+                        lPlayers.append(newScore)  # append the new score
+        else:  # If the file does not exist
+            myFile = open(self.HIGHSCOREFILE, "wb") # We open the file for writing to create it
+            myFile.close()  # We close the file
+            initials = input("Write your initials: ")  # Input the player initials
+            initials = initials[0:3]  # Taking only the first three initials of the player
+            firstScore = (initials, self.__score)
+            lPlayers.append(firstScore)  # Append the first score
+        print("Highest scores:")  # Scores header
+        for i in range(len(lPlayers)):  # Printing the scores list
+            print(f"\t{lPlayers[i][0]}:\t{lPlayers[i][1]}")
+        myFile = open(self.HIGHSCOREFILE, "wb")  # We open the file to write the data
+        pickle.dump(lPlayers, myFile)  # We pickle the list lPlayers into the file
+        myFile.close()  # We close the file
 
