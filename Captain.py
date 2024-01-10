@@ -48,6 +48,8 @@ class Captain(Creature):
         """
         # receiving a new list and replacing veggiesCollected
         # clean the initial list
+
+        
         self.__veggiesCollected.clear()
         # create the new list
         for item in range(len(newVeggiesCollected)):
